@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Email Verification – HousePrice AI</title>
+
+<style>
+body{
+  font-family:Inter,system-ui,sans-serif;
+  background:#f1f5f9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+
+.card{
+  background:#ffffff;
+  padding:40px;
+  border-radius:24px;
+  max-width:420px;
+  width:100%;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,.12);
+}
+
+h2{
+  color:#2563eb;
+  margin-bottom:8px;
+}
+p{
+  font-size:.9rem;
+  color:#6b7280;
+  margin-bottom:25px;
+}
+
+.otp-box{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-bottom:25px;
+}
+.otp-box input{
+  width:50px;
+  height:55px;
+  text-align:center;
+  font-size:1.2rem;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+}
+.otp-box input:focus{
+  outline:none;
+  border-color:#2563eb;
+  box-shadow:0 0 0 3px rgba(37,99,235,.15);
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  background:#2563eb;
+  color:#ffffff;
+  font-size:1rem;
+  cursor:pointer;
+}
+button:hover{
+  background:#1e40af;
+}
+
+.resend{
+  margin-top:18px;
+  font-size:.85rem;
+}
+.resend a{
+  color:#2563eb;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Verify Your Email</h2>
+  <p>We’ve sent a 6-digit OTP to your email address</p>
+
+  <div class="otp-box">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+    <input maxlength="1">
+  </div>
+
+  <button>Verify Account</button>
+
+  <div class="resend">
+    Didn’t receive the code?
+    <a>Resend OTP</a>
+  </div>
+</div>
+
+<script>
+const inputs = document.querySelectorAll(".otp-box input");
+inputs.forEach((input, index) => {
+  input.addEventListener("input", () => {
+    if(input.value && index < inputs.length - 1){
+      inputs[index + 1].focus();
+    }
+  });
+});
+</script>
+
+</body>
+</html>
