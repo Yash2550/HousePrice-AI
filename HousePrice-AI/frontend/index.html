@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HousePrice AI</title>
+
+<style>
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* BASE */
+body{
+  font-family: "Inter", system-ui, sans-serif;
+  background:#f9fafb;
+  color:#111827;
+  line-height:1.6;
+}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;border-radius:14px}
+
+/* LAYOUT */
+.container{
+  width:90%;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* HEADER */
+header{
+  background:#fff;
+  border-bottom:1px solid #e5e7eb;
+}
+.header-inner{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 0;
+}
+.logo{
+  font-size:1.6rem;
+  font-weight:700;
+  color:#2563eb;
+}
+nav a{
+  margin-left:18px;
+  font-weight:500;
+}
+.btn{
+  padding:10px 18px;
+  border-radius:8px;
+  font-size:.9rem;
+}
+.btn-primary{
+  background:#2563eb;
+  color:#fff;
+}
+.btn-outline{
+  border:1px solid #2563eb;
+  color:#2563eb;
+}
+
+/* HERO */
+.hero{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  align-items:center;
+  margin:70px 0;
+}
+.hero h1{
+  font-size:2.8rem;
+}
+.hero p{
+  margin:20px 0;
+  color:#4b5563;
+}
+.hero-actions a{margin-right:10px}
+
+/* --- NEW: PREDICTION FORM STYLES --- */
+.prediction-section {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    margin-bottom: 80px;
+    border: 1px solid #e5e7eb;
+}
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-header h2 { font-size: 2rem; color: #111827; }
+.form-header p { color: #6b7280; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.95rem;
+}
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+.input-group input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+.predict-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+.predict-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+}
+.predict-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* RESULT BOX */
+.result-box {
+    margin-top: 30px;
+    padding: 25px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 12px;
+    text-align: center;
+    display: none; /* Hidden by default */
+    animation: fadeIn 0.5s ease;
+}
+.result-box h3 { color: #166534; margin-bottom: 5px; font-size: 1.1rem; }
+.result-price { font-size: 2.8rem; font-weight: 800; color: #15803d; letter-spacing: -1px; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+  text-align:center;
+  margin-bottom:80px;
+}
+.stat{
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+.stat h3{
+  font-size:2.2rem;
+  color:#2563eb;
+}
+
+/* FEATURES */
+.section-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+.section-title h2{
+  font-size:2.2rem;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
+}
+.card{
+  background:#fff;
+  padding:18px;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.05);
+  transition:.3s ease;
+}
+.card:hover{
+  transform:translateY(-10px);
+  box-shadow:0 25px 50px rgba(0,0,0,.12);
+}
+.card h3{
+  margin:15px 0 8px;
+}
+
+/* CTA */
+.cta{
+  background:linear-gradient(135deg,#2563eb,#1e40af);
+  color:#fff;
+  text-align:center;
+  padding:70px 20px;
+  border-radius:22px;
+  margin:90px 0;
+}
+.cta h2{font-size:2.4rem}
+.cta p{margin:15px 0 25px}
+
+/* FOOTER */
+footer{
+  background:#0f172a;
+  color:#cbd5f5;
+  padding:50px 0 30px;
+}
+.footer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:30px;
+}
+footer h4{margin-bottom:10px}
+footer a{display:block;margin-bottom:6px;font-size:.9rem}
+footer small{
+  display:block;
+  text-align:center;
+  margin-top:30px;
+  opacity:.7;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr}
+  .hero h1{font-size:2.2rem}
+  .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="logo">HousePrice AI</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="feature.html">Features</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="login.html" class="btn btn-primary">Login</a>
+      <a href="signup.html" class="btn btn-primary">SIGNUP</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <h1>AI-Powered House Price Prediction</h1>
+      <p>
+        End-to-end starter kit combining Machine Learning, Python,
+        and a modern responsive frontend UI.
+      </p>
+      <div class="hero-actions">
+        <a href="#predict" class="btn btn-primary">Try Prediction</a>
+        <a href="signup.html" class="btn btn-outline">Sign Up</a>
+      </div>
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=60">
+  </section>
+
+  <section id="predict" class="prediction-section">
+    <div class="form-header">
+        <h2>Estimate Price</h2>
+        <p>Enter property details to get an instant AI valuation</p>
+    </div>
+    
+    <form id="houseForm">
+        <div class="form-grid">
+            <div class="input-group">
+                <label>Area (sq ft)</label>
+                <input type="number" id="Area" required placeholder="e.g. 2500" min="100">
+            </div>
+            <div class="input-group">
+                <label>Bedrooms</label>
+                <input type="number" id="Bedrooms" required placeholder="e.g. 3" min="1">
+            </div>
+            <div class="input-group">
+                <label>Bathrooms</label>
+                <input type="number" id="Bathrooms" required placeholder="e.g. 2" min="1">
+            </div>
+            <div class="input-group">
+                <label>Stories</label>
+                <input type="number" id="Stories" required placeholder="e.g. 2" min="1">
+            </div>
+            <div class="input-group">
+                <label>Parking Spots</label>
+                <input type="number" id="Parking" required placeholder="e.g. 1" min="0">
+            </div>
+        </div>
+        <button type="submit" class="predict-btn">Calculate Market Value</button>
+    </form>
+
+    <div id="result" class="result-box">
+        <h3>Estimated Market Price</h3>
+        <div class="result-price" id="priceValue">$0.00</div>
+    </div>
+  </section>
+  <section class="stats">
+    <div class="stat">
+      <h3>10K+</h3>
+      <p>Predictions</p>
+    </div>
+    <div class="stat">
+      <h3>95%</h3>
+      <p>Model Accuracy</p>
+    </div>
+    <div class="stat">
+      <h3>20+</h3>
+      <p>ML Features</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <h2>Platform Features</h2>
+      <p>Everything you need for an AI portfolio project</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?auto=format&fit=crop&w=800&q=60">
+        <h3>Model Training</h3>
+        <p>Train ML models using Python, Pandas, and Scikit-Learn.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=600&q=60">
+        <h3>Price Prediction</h3>
+        <p>Predict real-time house prices with trained models.</p>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=60">
+        <h3>Modern UI</h3>
+        <p>Clean, responsive UI ready for production & portfolios.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Build Your AI Portfolio Project</h2>
+    <p>Perfect for students, developers, and ML engineers</p>
+    <a href="login.html" class="btn btn-primary">Start Now</a>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h4>HousePrice AI</h4>
+      <p>Smart house price prediction using machine learning.</p>
+    </div>
+    <div>
+      <h4>Links</h4>
+      <a href="index.html">Home</a>
+      <a href="feature.html">Features</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div>
+      <h4>Support</h4>
+      <p>support@houseprice.ai</p>
+    </div>
+  </div>
+  <small>© 2026 HousePrice AI. All rights reserved.</small>
+</footer>
+
+<script>
+    document.getElementById('houseForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = document.querySelector('.predict-btn');
+        const resultBox = document.getElementById('result');
+        const priceValue = document.getElementById('priceValue');
+
+        // Gather data from form
+        const formData = {
+            Area: document.getElementById('Area').value,
+            Bedrooms: document.getElementById('Bedrooms').value,
+            Bathrooms: document.getElementById('Bathrooms').value,
+            Stories: document.getElementById('Stories').value,
+            Parking: document.getElementById('Parking').value
+        };
+
+        // UI Loading State
+        btn.textContent = "Calculating...";
+        btn.disabled = true;
+
+        try {
+            // Send data to Flask
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+          // Display Result
+            if (response.ok) {
+                resultBox.style.display = 'block';
+                // Format currency
+                const price = new Intl.NumberFormat('en-US', { 
+                    style: 'currency', 
+                    currency: 'USD',
+                    maximumFractionDigits: 0
+                }).format(data.predicted_price);
+                
+                priceValue.textContent = price;
+                
+                // Scroll to result
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+                alert("Error: " + (data.error || "Unknown error occurred"));
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert("Failed to connect to the server. Make sure 'python app.py' is running!");
+        } finally {
+            btn.textContent = "Calculate Market Value";
+            btn.disabled = false;
+        }
+    });
+</script>
+
+</body>
+</html>
