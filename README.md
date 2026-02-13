@@ -10,6 +10,12 @@ A machine learning-powered web application for predicting house prices using art
 - 🔐 **User Authentication**: Login, signup, and password recovery
 - 📈 **Visualization**: Interactive notebooks for data analysis
 
+## 🌐 Live Demo
+
+**[View Live Application](https://houseprice-ai.onrender.com)** *(Deploy following DEPLOYMENT.md guide)*
+
+> 💡 **Want to deploy your own?** See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions to deploy on Render for free!
+
 ## 🚀 Installation
 
 ### Prerequisites
